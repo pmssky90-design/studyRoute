@@ -1,0 +1,106 @@
+{
+  "base_url": "https://studyroute.co.kr",
+  "initial": {
+    "search_script_in_dom": true,
+    "search_trigger_exists": true,
+    "search_panel_exists": true,
+    "search_input_exists": true
+  },
+  "after_click": {
+    "open_class": true,
+    "panel_opacity": "1",
+    "active_element": "site-search-input",
+    "aria_expanded": "true"
+  },
+  "autocomplete": {
+    "result_count": 8,
+    "first_result": "수학과외",
+    "first_href": "/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/"
+  },
+  "navigation": {
+    "pathname": "/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/"
+  },
+  "network": {
+    "responses": {
+      "https://studyroute.co.kr/": {
+        "status": 200,
+        "mimeType": "text/html",
+        "fromDiskCache": false,
+        "fromPrefetchCache": false
+      },
+      "https://studyroute.co.kr/assets/js/search.js": {
+        "status": 304,
+        "mimeType": "application/javascript",
+        "fromDiskCache": false,
+        "fromPrefetchCache": false
+      },
+      "https://studyroute.co.kr/search-index.json": {
+        "status": 200,
+        "mimeType": "application/json",
+        "fromDiskCache": false,
+        "fromPrefetchCache": false
+      }
+    },
+    "failures": [
+      {
+        "requestId": "27436.3",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.11",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.8",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.19",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.9",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.12",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.14",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.16",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.15",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.17",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.18",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.13",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.10",
+        "errorText": "net::ERR_ABORTED"
+      },
+      {
+        "requestId": "27436.4",
+        "errorText": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  "console": [],
+  "screenshot": "reports\\search-runtime-production.png",
+  "passed": true
+}
