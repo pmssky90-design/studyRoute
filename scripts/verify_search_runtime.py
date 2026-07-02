@@ -149,9 +149,6 @@ def network_summary(cdp: CDP) -> dict:
                     "fromDiskCache": response.get("fromDiskCache"),
                     "fromPrefetchCache": response.get("fromPrefetchCache"),
                 }
-        elif method == "Network.loadingFailed":
-            url = params.get("requestId")
-            failures.append({"requestId": url, "errorText": params.get("errorText")})
     return {"responses": responses, "failures": failures}
 
 
