@@ -222,10 +222,14 @@ def main() -> None:
             "first_href": evaluate(cdp, "document.querySelector('.search-result')?.getAttribute('href') || ''"),
         }
 
-        evaluate(cdp, "document.querySelector('.search-result').click()")
+        cdp.send("Input.dispatchKeyEvent", {"type": "keyDown", "key": "Enter", "code": "Enter", "windowsVirtualKeyCode": 13})
+        cdp.send("Input.dispatchKeyEvent", {"type": "keyUp", "key": "Enter", "code": "Enter", "windowsVirtualKeyCode": 13})
         time.sleep(1)
         cdp.drain(1)
-        navigation = {"pathname": evaluate(cdp, "location.pathname")}
+        navigation = {
+            "method": "Enter",
+            "pathname": evaluate(cdp, "location.pathname"),
+        }
 
         shot = cdp.send("Page.captureScreenshot", {"format": "png", "captureBeyondViewport": False})
         screenshot = REPORTS / "search-runtime-production.png"

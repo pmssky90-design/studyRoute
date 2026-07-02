@@ -204,9 +204,35 @@
       }
     }
 
+    function selectedResult() {
+      return (
+        results.querySelector(".search-result[aria-selected=\"true\"]") ||
+        results.querySelector(".search-result.is-active") ||
+        results.querySelector(".search-result.active") ||
+        results.querySelector(".search-result.selected") ||
+        (document.activeElement && document.activeElement.classList.contains("search-result") ? document.activeElement : null) ||
+        results.querySelector(".search-result")
+      );
+    }
+
     toggle.addEventListener("click", toggleSearch);
     close.addEventListener("click", closeSearch);
     input.addEventListener("input", render);
+    input.addEventListener("keydown", function (event) {
+      var target;
+
+      if (event.key !== "Enter" || !root.classList.contains("is-search-open")) {
+        return;
+      }
+
+      target = selectedResult();
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+      window.location.href = target.href;
+    });
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && root.classList.contains("is-search-open")) {
