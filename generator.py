@@ -1403,6 +1403,34 @@ def write_sitemap(pages: Iterable[Page]) -> None:
     (config.OUTPUT_DIR / "sitemap.xml").write_text(sitemap, encoding="utf-8", newline="\n")
 
 
+def write_search_index(pages: Iterable[Page]) -> None:
+    """Write the client-side search index from generated page metadata."""
+
+    records = []
+    for page in pages:
+        slug = page.keyword
+        if not slug and page.output_path != "index.html":
+            slug = page.output_path.replace("\\", "/").removesuffix("/index.html")
+        records.append(
+            {
+                "url": page.url_path,
+                "title": page.title,
+                "slug": slug,
+            }
+        )
+
+    payload = {
+        "generated_at": date.today().isoformat(),
+        "count": len(records),
+        "pages": records,
+    }
+    (config.OUTPUT_DIR / "search-index.json").write_text(
+        json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+        newline="\n",
+    )
+
+
 def build_site() -> None:
     ensure_source_directories()
     clean_output()
@@ -1413,6 +1441,7 @@ def build_site() -> None:
         render_page(page, renderer)
 
     copy_assets()
+    write_search_index(pages)
     write_robots()
     write_sitemap(pages)
 

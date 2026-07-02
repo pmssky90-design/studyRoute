@@ -1,0 +1,45 @@
+{
+  "index_count": 1976,
+  "cases": [
+    {
+      "viewport": "1440x1000",
+      "query": "대전",
+      "opened": true,
+      "results": 8,
+      "first_result": "대전과외",
+      "first_href": "/%EB%8C%80%EC%A0%84%EA%B3%BC%EC%99%B8/",
+      "navigated_path": "/%EB%8C%80%EC%A0%84%EA%B3%BC%EC%99%B8/",
+      "esc_closed": true,
+      "outside_click_closed": true,
+      "mobile_fullscreen": true,
+      "screenshot": "reports\\search-desktop.png"
+    },
+    {
+      "viewport": "820x1100",
+      "query": "관평",
+      "opened": true,
+      "results": 8,
+      "first_result": "관평동과외",
+      "first_href": "/%EA%B4%80%ED%8F%89%EB%8F%99%EA%B3%BC%EC%99%B8/",
+      "navigated_path": "/%EA%B4%80%ED%8F%89%EB%8F%99%EA%B3%BC%EC%99%B8/",
+      "esc_closed": true,
+      "outside_click_closed": true,
+      "mobile_fullscreen": true,
+      "screenshot": "reports\\search-tablet.png"
+    },
+    {
+      "viewport": "390x844",
+      "query": "수학",
+      "opened": true,
+      "results": 8,
+      "first_result": "수학과외",
+      "first_href": "/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
+      "navigated_path": "/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
+      "esc_closed": true,
+      "outside_click_closed": true,
+      "mobile_fullscreen": true,
+      "screenshot": "reports\\search-mobile.png"
+    }
+  ],
+  "passed": true
+}
