@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="StudyRoute preview image">
+  <rect width="1200" height="630" fill="#eef5f3"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#ffffff"/>
+  <rect x="118" y="118" width="86" height="86" rx="18" fill="#0f766e"/>
+  <text x="161" y="172" fill="#ffffff" font-family="Arial, sans-serif" font-size="32" font-weight="700" text-anchor="middle">SR</text>
+  <text x="118" y="300" fill="#18202a" font-family="Arial, sans-serif" font-size="82" font-weight="800">StudyRoute</text>
+  <text x="122" y="374" fill="#5c6875" font-family="Arial, sans-serif" font-size="34">Python Static Site Generator</text>
+  <path d="M124 448h300" stroke="#0f766e" stroke-width="14" stroke-linecap="round"/>
+  <path d="M124 488h180" stroke="#9fd6cd" stroke-width="14" stroke-linecap="round"/>
+</svg>

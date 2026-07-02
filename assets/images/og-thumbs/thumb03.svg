@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#eaf4f1"/>
+  <path d="M0 500h1200v130H0z" fill="#0f766e"/>
+  <text x="100" y="180" fill="#18202a" font-family="Arial, sans-serif" font-size="72" font-weight="800">StudyNavi</text>
+  <text x="104" y="260" fill="#115e59" font-family="Arial, sans-serif" font-size="40" font-weight="700">Student Growth Notes</text>
+  <circle cx="910" cy="250" r="155" fill="#ffffff"/>
+  <circle cx="910" cy="250" r="105" fill="#d99f2b"/>
+  <text x="910" y="285" fill="#ffffff" font-family="Arial, sans-serif" font-size="88" font-weight="800" text-anchor="middle">03</text>
+</svg>

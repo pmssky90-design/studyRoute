@@ -1,0 +1,16 @@
+{
+  "expected": "https://studyroute.co.kr",
+  "counts": {
+    "html": 1976,
+    "canonical": 1976,
+    "og_url": 1976,
+    "og_image": 1976,
+    "twitter_image": 1976,
+    "jsonld_url": 5928,
+    "robots": 1,
+    "sitemap": 1976,
+    "rss_files": 0
+  },
+  "bad": [],
+  "bad_count": 0
+}

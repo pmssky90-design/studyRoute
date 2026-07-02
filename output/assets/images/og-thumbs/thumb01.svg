@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#10233f"/>
+  <rect x="70" y="70" width="1060" height="490" rx="24" fill="#ffffff"/>
+  <text x="120" y="190" fill="#10233f" font-family="Arial, sans-serif" font-size="70" font-weight="800">StudyNavi</text>
+  <text x="122" y="270" fill="#0f766e" font-family="Arial, sans-serif" font-size="42" font-weight="700">Learning Route Guide</text>
+  <rect x="120" y="345" width="320" height="26" rx="13" fill="#d99f2b"/>
+  <rect x="120" y="405" width="560" height="24" rx="12" fill="#9fd6cd"/>
+  <circle cx="900" cy="350" r="120" fill="#0f766e"/>
+  <path d="M840 354l42 42 84-96" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

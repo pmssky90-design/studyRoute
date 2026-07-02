@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="160" fill="#0f766e"/>
+  <text x="96" y="108" fill="#ffffff" font-family="Arial, sans-serif" font-size="64" font-weight="800">StudyNavi</text>
+  <text x="98" y="255" fill="#18202a" font-family="Arial, sans-serif" font-size="48" font-weight="800">Personal Learning Plan</text>
+  <rect x="98" y="320" width="680" height="28" rx="14" fill="#d7dde4"/>
+  <rect x="98" y="380" width="500" height="28" rx="14" fill="#d7dde4"/>
+  <rect x="850" y="250" width="180" height="180" rx="16" fill="#10233f"/>
+  <text x="940" y="370" fill="#ffffff" font-family="Arial, sans-serif" font-size="76" font-weight="800" text-anchor="middle">04</text>
+</svg>

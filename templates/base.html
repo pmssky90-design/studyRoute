@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="${language}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${title}</title>
+    <meta name="description" content="${description}">
+    <link rel="canonical" href="${canonical_url}">
+    <link rel="icon" href="${favicon_path}" type="image/svg+xml">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="${site_name}">
+    <meta property="og:title" content="${og_title}">
+    <meta property="og:description" content="${og_description}">
+    <meta property="og:url" content="${og_url}">
+    <meta property="og:image" content="${og_image}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${twitter_title}">
+    <meta name="twitter:description" content="${twitter_description}">
+    <meta name="twitter:image" content="${twitter_image}">
+
+    <script type="application/ld+json">
+${json_ld}
+    </script>
+    <link rel="stylesheet" href="${asset_prefix}assets/css/main.css">
+  </head>
+  <body class="${body_class}">
+${header}
+${breadcrumb}
+    <main id="main-content">
+${content}
+    </main>
+${footer}
+  </body>
+</html>

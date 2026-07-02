@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#11263a"/>
+  <rect x="80" y="100" width="1040" height="430" rx="30" fill="#f8fafb"/>
+  <text x="145" y="225" fill="#11263a" font-family="Arial, sans-serif" font-size="70" font-weight="800">StudyNavi</text>
+  <text x="148" y="303" fill="#0f766e" font-family="Arial, sans-serif" font-size="38" font-weight="700">Exam Preparation Flow</text>
+  <path d="M150 405h170l60-72 70 118 68-90h180" fill="none" stroke="#d99f2b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="920" y="365" fill="#11263a" font-family="Arial, sans-serif" font-size="96" font-weight="800" text-anchor="middle">05</text>
+</svg>
