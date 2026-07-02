@@ -457,6 +457,9 @@ def copy_assets() -> None:
         shutil.rmtree(target)
     if config.ASSET_DIR.exists():
         shutil.copytree(config.ASSET_DIR, target)
+    root_favicon = target / "images" / "favicon.ico"
+    if root_favicon.exists():
+        shutil.copy2(root_favicon, config.OUTPUT_DIR / "favicon.ico")
 
 
 def find_workbook() -> Path:
