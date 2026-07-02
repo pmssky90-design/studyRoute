@@ -6,7 +6,10 @@
     <title>태평동중등수학과외 | 중등수학과외 일대일 전문 | StudyRoute</title>
     <meta name="description" content="태평동중등수학과외 관련 중등수학과외 일대일 전문 정보를 StudyRoute에서 확인하세요. 지역별 과외 학습 흐름과 연결 페이지를 정적 HTML로 제공합니다.">
     <link rel="canonical" href="https://studyroute.co.kr/%ED%83%9C%ED%8F%89%EB%8F%99%EC%A4%91%EB%93%B1%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/">
+    <link rel="icon" href="../assets/images/favicon.ico" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-32x32.png" type="image/png" sizes="32x32">
     <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" sizes="180x180">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="StudyRoute">
@@ -24,10 +27,22 @@
 [
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
+    "@type": "Organization",
+    "@id": "https://studyroute.co.kr/#organization",
     "name": "StudyRoute",
     "url": "https://studyroute.co.kr",
-    "description": "StudyRoute는 대전과 대구 지역의 과외 학습 정보를 정적 HTML로 제공하는 사이트입니다."
+    "logo": "https://studyroute.co.kr/assets/images/favicon.svg"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://studyroute.co.kr/#website",
+    "name": "StudyRoute",
+    "url": "https://studyroute.co.kr",
+    "description": "StudyRoute는 대전과 대구 지역의 과외 학습 정보를 정적 HTML로 제공하는 사이트입니다.",
+    "publisher": {
+      "@id": "https://studyroute.co.kr/#organization"
+    }
   },
   {
     "@context": "https://schema.org",
@@ -35,7 +50,13 @@
     "@id": "https://studyroute.co.kr/%ED%83%9C%ED%8F%89%EB%8F%99%EC%A4%91%EB%93%B1%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
     "name": "태평동중등수학과외 | 중등수학과외 일대일 전문 | StudyRoute",
     "url": "https://studyroute.co.kr/%ED%83%9C%ED%8F%89%EB%8F%99%EC%A4%91%EB%93%B1%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
-    "description": "태평동중등수학과외 관련 중등수학과외 일대일 전문 정보를 StudyRoute에서 확인하세요. 지역별 과외 학습 흐름과 연결 페이지를 정적 HTML로 제공합니다."
+    "description": "태평동중등수학과외 관련 중등수학과외 일대일 전문 정보를 StudyRoute에서 확인하세요. 지역별 과외 학습 흐름과 연결 페이지를 정적 HTML로 제공합니다.",
+    "isPartOf": {
+      "@id": "https://studyroute.co.kr/#website"
+    },
+    "publisher": {
+      "@id": "https://studyroute.co.kr/#organization"
+    }
   }
 ]
     </script>

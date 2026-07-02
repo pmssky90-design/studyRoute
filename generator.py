@@ -827,9 +827,11 @@ def website_json_ld() -> str:
     payload = {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": absolute_url("/#website"),
         "name": config.PROJECT_NAME,
         "url": config.BASE_URL,
         "description": config.DEFAULT_DESCRIPTION,
+        "publisher": {"@id": absolute_url("/#organization")},
     }
     if config.SOCIAL_PROFILES:
         payload["sameAs"] = config.SOCIAL_PROFILES
@@ -841,6 +843,14 @@ def page_json_ld(page: Page) -> str:
 
     page_url = absolute_url(page.url_path)
     graph = [
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": absolute_url("/#organization"),
+            "name": config.PROJECT_NAME,
+            "url": config.BASE_URL,
+            "logo": absolute_url(config.FAVICON_PATH),
+        },
         json.loads(website_json_ld()),
         {
             "@context": "https://schema.org",
@@ -849,6 +859,8 @@ def page_json_ld(page: Page) -> str:
             "name": page.title,
             "url": page_url,
             "description": page.description,
+            "isPartOf": {"@id": absolute_url("/#website")},
+            "publisher": {"@id": absolute_url("/#organization")},
         },
     ]
     return json.dumps(graph, ensure_ascii=False, indent=2)
