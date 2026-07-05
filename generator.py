@@ -12,9 +12,11 @@ import hashlib
 import json
 import re
 import shutil
+import time
 import zipfile
 from dataclasses import dataclass, field
 from datetime import date
+from functools import lru_cache
 from html.parser import HTMLParser
 from pathlib import Path
 from string import Template
@@ -429,7 +431,14 @@ def clean_output() -> None:
     """Reset the output directory before every build."""
 
     if config.OUTPUT_DIR.exists():
-        shutil.rmtree(config.OUTPUT_DIR)
+        for attempt in range(5):
+            try:
+                shutil.rmtree(config.OUTPUT_DIR)
+                break
+            except OSError:
+                if attempt == 4:
+                    raise
+                time.sleep(0.5)
     config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -456,10 +465,10 @@ def copy_assets() -> None:
     if target.exists():
         shutil.rmtree(target)
     if config.ASSET_DIR.exists():
-        shutil.copytree(config.ASSET_DIR, target)
+        shutil.copytree(config.ASSET_DIR, target, copy_function=shutil.copy)
     root_favicon = target / "images" / "favicon.ico"
     if root_favicon.exists():
-        shutil.copy2(root_favicon, config.OUTPUT_DIR / "favicon.ico")
+        shutil.copy(root_favicon, config.OUTPUT_DIR / "favicon.ico")
 
 
 def find_workbook() -> Path:
@@ -632,6 +641,31 @@ def absolute_url(path: str) -> str:
     return urljoin(config.BASE_URL.rstrip("/") + "/", path.lstrip("/"))
 
 
+def root_asset_path(path: str) -> str:
+    """Convert an asset path to a site-root path."""
+
+    clean_path = path.split("?", 1)[0].lstrip("/")
+    return "/" + clean_path
+
+
+@lru_cache(maxsize=None)
+def asset_version(path: str) -> str:
+    """Return a short content hash for cache busting."""
+
+    clean_path = path.split("?", 1)[0].lstrip("/")
+    asset_path = config.ROOT_DIR / clean_path
+    if not asset_path.exists() or not asset_path.is_file():
+        return "missing"
+    return hashlib.sha256(asset_path.read_bytes()).hexdigest()[:12]
+
+
+def versioned_asset_path(path: str) -> str:
+    """Return a root-relative asset URL with a cache-busting query string."""
+
+    root_path = root_asset_path(path)
+    return f"{root_path}?v={asset_version(root_path)}"
+
+
 def html_attr(value: str) -> str:
     """Escape a string for safe use in HTML text or attributes."""
 
@@ -655,7 +689,7 @@ def render_body_image(keyword: str) -> str:
     alt = html_attr(f"{keyword} 학습 정보")
     return (
         '<figure class="body-common-image">\n'
-        f'  <img src="../{config.BODY_IMAGE_PATH}" alt="{alt}" '
+        f'  <img src="{versioned_asset_path(config.BODY_IMAGE_PATH)}" alt="{alt}" '
         'loading="lazy" decoding="async" '
         f'width="{config.BODY_IMAGE_WIDTH}" height="{config.BODY_IMAGE_HEIGHT}">\n'
         "</figure>"
@@ -871,7 +905,8 @@ def page_json_ld(page: Page) -> str:
 
 def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
     canonical_url = absolute_url(page.url_path)
-    image_url = absolute_url(select_og_image_path(page))
+    image_path = versioned_asset_path(select_og_image_path(page))
+    image_url = absolute_url(image_path)
     current_year = str(date.today().year)
     relative_prefix = "" if page.output_path == "index.html" else "../"
 
@@ -888,7 +923,13 @@ def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
         "twitter_title": html_attr(page.title),
         "twitter_description": html_attr(page.description),
         "twitter_image": image_url,
-        "favicon_path": relative_prefix + config.FAVICON_PATH,
+        "favicon_path": versioned_asset_path(config.FAVICON_PATH),
+        "favicon_ico_path": versioned_asset_path("assets/images/favicon.ico"),
+        "favicon_png_path": versioned_asset_path("assets/images/favicon-32x32.png"),
+        "apple_touch_icon_path": versioned_asset_path("assets/images/apple-touch-icon.png"),
+        "stylesheet_path": versioned_asset_path("assets/css/main.css"),
+        "search_script_path": versioned_asset_path("assets/js/search.js"),
+        "home_hero_image_path": versioned_asset_path("assets/images/home-hero-books-skyline-crop.png"),
         "asset_prefix": relative_prefix,
         "home_url": relative_prefix or "./",
         "body_class": page.body_class,

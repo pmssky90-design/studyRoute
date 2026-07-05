@@ -117,7 +117,7 @@
       "category": "CSS",
       "path": "assets/css/main.css",
       "message": "possible unused CSS classes",
-      "detail": "checklist, faq, faq-item, feature-strip-grid, footer-links, highlight-box, home-seo-space, hub-card, hub-grid, info-card, key-point, png, region-illustration, section-heading, seo-band-title, seo-doc, seo-placeholder, svg, tip, tip-box"
+      "detail": "checklist, faq, faq-item, feature-strip-grid, footer-links, highlight-box, home-seo-space, hub-card, hub-grid, info-card, is-search-open, key-point, png, region-illustration, search-empty, search-result, section-heading, seo-band-title, seo-doc, seo-placeholder, svg, tip, tip-box"
     }
   ]
 }

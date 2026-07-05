@@ -1,0 +1,13 @@
+# Static Asset Report
+
+HTML files: 1976
+Stylesheet references: 1976
+Image references: 1976
+Script references: 1976
+CSS missing: 0
+Image missing: 0
+JS missing: 0
+Path errors: 0
+Total errors: 0
+
+No missing static assets.

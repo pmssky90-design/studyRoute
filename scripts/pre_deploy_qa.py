@@ -149,6 +149,8 @@ def local_target(base_file: Path, href: str) -> Path | None:
         if f"{parsed.scheme}://{parsed.netloc}".rstrip("/") != BASE_URL:
             return None
         href = parsed.path
+    else:
+        href = parsed.path
     if href.startswith("/"):
         target = OUTPUT / unquote(href).lstrip("/")
     else:
@@ -209,7 +211,7 @@ def audit() -> tuple[list[Issue], dict[str, object]]:
         icon_hrefs = [l.get("href", "") for l in p.links if "icon" in l.get("rel", "")]
         apple_hrefs = [l.get("href", "") for l in p.links if l.get("rel") == "apple-touch-icon"]
         for icon in required_icons.values():
-            if not any(href.endswith(icon) for href in icon_hrefs + apple_hrefs):
+            if not any(urlparse(href).path.lstrip("/").endswith(icon) for href in icon_hrefs + apple_hrefs):
                 add(issues, "Medium", "Favicon", page, "favicon link missing", icon)
         for href in icon_hrefs + apple_hrefs:
             if not asset_exists(page, href):
