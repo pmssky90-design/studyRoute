@@ -18,13 +18,13 @@ OUTPUT_DIR = ROOT_DIR / "output"
 SOURCE_WORKBOOK = DATA_DIR / "대전_대구_12개메인허브.xlsx"
 
 DEFAULT_TITLE = "StudyRoute | 대전 대구 과외 학습 경로"
-DEFAULT_DESCRIPTION = "StudyRoute는 대전과 대구 지역의 과외 학습 정보를 정적 HTML로 제공하는 사이트입니다."
-DEFAULT_IMAGE = "assets/images/og-default.svg"
+DEFAULT_DESCRIPTION = "StudyRoute는 대전과 대구 지역의 과외 학습 정보를 안내하는 사이트입니다."
+DEFAULT_IMAGE = "assets/images/og-default.png"
 FAVICON_PATH = "assets/images/favicon.svg"
 BODY_IMAGE_PATH = "assets/images/body-common.webp"
 BODY_IMAGE_WIDTH = 800
 BODY_IMAGE_HEIGHT = 8000
-OG_THUMBNAILS = tuple(f"assets/images/og-thumbs/thumb{index:02d}.svg" for index in range(1, 13))
+OG_THUMBNAILS = tuple(f"assets/images/og-thumbs/thumb{index:02d}.png" for index in range(1, 13))
 EXTRA_NATIONAL_HUB_SUFFIXES = ("학습전략가이드",)
 
 ROBOTS_ALLOW_ALL = True

@@ -2,5 +2,18 @@
   "framework": null,
   "installCommand": "",
   "buildCommand": "python3 generator.py",
-  "outputDirectory": "output"
+  "outputDirectory": "output",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.studyroute.co.kr"
+        }
+      ],
+      "destination": "https://studyroute.co.kr/$1",
+      "permanent": true
+    }
+  ]
 }

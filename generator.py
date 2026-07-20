@@ -16,7 +16,6 @@ import time
 import zipfile
 from dataclasses import dataclass, field
 from datetime import date
-from functools import lru_cache
 from html.parser import HTMLParser
 from pathlib import Path
 from string import Template
@@ -642,28 +641,25 @@ def absolute_url(path: str) -> str:
 
 
 def root_asset_path(path: str) -> str:
-    """Convert an asset path to a site-root path."""
+    """Convert an asset path to a site-root path for canonical metadata."""
 
     clean_path = path.split("?", 1)[0].lstrip("/")
     return "/" + clean_path
 
 
-@lru_cache(maxsize=None)
-def asset_version(path: str) -> str:
-    """Return a short content hash for cache busting."""
+def output_relative_prefix(output_path: str) -> str:
+    """Return the relative prefix from an output HTML file to output root."""
 
-    clean_path = path.split("?", 1)[0].lstrip("/")
-    asset_path = config.ROOT_DIR / clean_path
-    if not asset_path.exists() or not asset_path.is_file():
-        return "missing"
-    return hashlib.sha256(asset_path.read_bytes()).hexdigest()[:12]
+    parent = Path(output_path.replace("\\", "/")).parent
+    if str(parent) == ".":
+        return ""
+    return "../" * len(parent.parts)
 
 
-def versioned_asset_path(path: str) -> str:
-    """Return a root-relative asset URL with a cache-busting query string."""
+def relative_asset_path(path: str, asset_prefix: str) -> str:
+    """Return a file:// friendly asset path relative to the current HTML file."""
 
-    root_path = root_asset_path(path)
-    return f"{root_path}?v={asset_version(root_path)}"
+    return asset_prefix + path.split("?", 1)[0].lstrip("/")
 
 
 def html_attr(value: str) -> str:
@@ -683,14 +679,14 @@ def select_og_image_path(page: Page) -> str:
     return config.OG_THUMBNAILS[index]
 
 
-def render_body_image(keyword: str) -> str:
+def render_body_image(keyword: str, asset_prefix: str) -> str:
     """Render the shared body image that appears immediately after H1."""
 
     alt = html_attr(f"{keyword} 학습 정보")
     return (
         '<figure class="body-common-image">\n'
-        f'  <img src="{versioned_asset_path(config.BODY_IMAGE_PATH)}" alt="{alt}" '
-        'loading="lazy" decoding="async" '
+        f'  <img src="{relative_asset_path(config.BODY_IMAGE_PATH, asset_prefix)}" alt="{alt}" '
+        'loading="eager" decoding="async" fetchpriority="high" '
         f'width="{config.BODY_IMAGE_WIDTH}" height="{config.BODY_IMAGE_HEIGHT}">\n'
         "</figure>"
     )
@@ -879,6 +875,7 @@ def page_json_ld(page: Page) -> str:
     """Return page-level JSON-LD while keeping WebSite data on every page."""
 
     page_url = absolute_url(page.url_path)
+    image_url = absolute_url(root_asset_path(select_og_image_path(page)))
     graph = [
         {
             "@context": "https://schema.org",
@@ -896,6 +893,7 @@ def page_json_ld(page: Page) -> str:
             "name": page.title,
             "url": page_url,
             "description": page.description,
+            "image": image_url,
             "isPartOf": {"@id": absolute_url("/#website")},
             "publisher": {"@id": absolute_url("/#organization")},
         },
@@ -905,10 +903,10 @@ def page_json_ld(page: Page) -> str:
 
 def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
     canonical_url = absolute_url(page.url_path)
-    image_path = versioned_asset_path(select_og_image_path(page))
+    image_path = root_asset_path(select_og_image_path(page))
     image_url = absolute_url(image_path)
     current_year = str(date.today().year)
-    relative_prefix = "" if page.output_path == "index.html" else "../"
+    relative_prefix = output_relative_prefix(page.output_path)
 
     context = {
         "site_name": config.PROJECT_NAME,
@@ -923,13 +921,13 @@ def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
         "twitter_title": html_attr(page.title),
         "twitter_description": html_attr(page.description),
         "twitter_image": image_url,
-        "favicon_path": versioned_asset_path(config.FAVICON_PATH),
-        "favicon_ico_path": versioned_asset_path("assets/images/favicon.ico"),
-        "favicon_png_path": versioned_asset_path("assets/images/favicon-32x32.png"),
-        "apple_touch_icon_path": versioned_asset_path("assets/images/apple-touch-icon.png"),
-        "stylesheet_path": versioned_asset_path("assets/css/main.css"),
-        "search_script_path": versioned_asset_path("assets/js/search.js"),
-        "home_hero_image_path": versioned_asset_path("assets/images/home-hero-books-skyline-crop.png"),
+        "favicon_path": relative_asset_path(config.FAVICON_PATH, relative_prefix),
+        "favicon_ico_path": relative_asset_path("assets/images/favicon.ico", relative_prefix),
+        "favicon_png_path": relative_asset_path("assets/images/favicon-32x32.png", relative_prefix),
+        "apple_touch_icon_path": relative_asset_path("assets/images/apple-touch-icon.png", relative_prefix),
+        "stylesheet_path": relative_asset_path("assets/css/main.css", relative_prefix),
+        "search_script_path": relative_asset_path("assets/js/search.js", relative_prefix),
+        "home_hero_image_path": relative_asset_path("assets/images/home-hero-books-skyline-crop.png", relative_prefix),
         "asset_prefix": relative_prefix,
         "home_url": relative_prefix or "./",
         "body_class": page.body_class,
@@ -1188,6 +1186,7 @@ def build_national_hub_pages(national_suffixes: list[str], existing_slugs: set[s
 
     pages: list[Page] = []
     for suffix in national_suffixes:
+        output_path = slug_to_output_path(suffix)
         city_links = [
             link
             for city in config.HOME_CITY_ORDER
@@ -1195,7 +1194,7 @@ def build_national_hub_pages(national_suffixes: list[str], existing_slugs: set[s
         ]
         pages.append(
             Page(
-                output_path=slug_to_output_path(suffix),
+                output_path=output_path,
                 template="pages/content.html",
                 title=f"{suffix} | 전국 학습 허브 | {config.PROJECT_NAME}",
                 description=f"{suffix} 전국 허브에서 대전과 대구 지역별 학습 정보로 이동할 수 있습니다.",
@@ -1227,7 +1226,7 @@ def build_national_hub_pages(national_suffixes: list[str], existing_slugs: set[s
                 canonical_path=slug_to_canonical_path(suffix),
                 extra_context={
                     "page_heading": f"<h1>{html_attr(suffix)}</h1>",
-                    "body_image_html": render_body_image(suffix),
+                    "body_image_html": render_body_image(suffix, output_relative_prefix(output_path)),
                 },
             )
         )
@@ -1244,6 +1243,7 @@ def build_virtual_region_hub_pages(
 
     pages: list[Page] = []
     for keyword in sorted(virtual_slugs):
+        output_path = slug_to_output_path(keyword)
         region_name, suffix = split_keyword(keyword, national_suffixes)
         current_region_slug = region_slug(region_name)
         sibling_links = [
@@ -1265,7 +1265,7 @@ def build_virtual_region_hub_pages(
             sections.append(LinkSection("주변 지역의 학습 정보", tuple(child_links)))
         pages.append(
             Page(
-                output_path=slug_to_output_path(keyword),
+                output_path=output_path,
                 template="pages/content.html",
                 title=f"{keyword} | 학습전략가이드 | {config.PROJECT_NAME}",
                 description=f"{keyword} 페이지에서 지역별 학습 전략 연결 정보를 확인할 수 있습니다.",
@@ -1298,7 +1298,7 @@ def build_virtual_region_hub_pages(
                 canonical_path=slug_to_canonical_path(keyword),
                 extra_context={
                     "page_heading": f"<h1>{html_attr(keyword)}</h1>",
-                    "body_image_html": render_body_image(keyword),
+                    "body_image_html": render_body_image(keyword, output_relative_prefix(output_path)),
                 },
             )
         )
@@ -1348,15 +1348,16 @@ def build_pages() -> list[Page]:
     pages.extend(build_virtual_region_hub_pages(virtual_slugs, national_suffixes, existing_slugs, parent_map))
     for keyword in sorted(rows_by_keyword, key=lambda slug: page_sort_key(slug, hub_suffixes)):
         row = rows_by_keyword[keyword]
+        output_path = slug_to_output_path(keyword)
         body_html = extract_body_fragment(row.body_html)
         body_html = supplement_short_content(keyword, body_html)
-        body_image_html = render_body_image(keyword)
+        body_image_html = render_body_image(keyword, output_relative_prefix(output_path))
         has_source_h1 = body_has_keyword_h1(body_html, keyword)
         if has_source_h1:
             body_html = strip_leading_h1_and_body_image(body_html, keyword)
         pages.append(
             Page(
-                output_path=slug_to_output_path(keyword),
+                output_path=output_path,
                 template="pages/content.html",
                 title=build_page_title(keyword, row.sheet_name),
                 description=build_meta_description(keyword, row.sheet_name),
@@ -1387,7 +1388,7 @@ def build_meta_description(keyword: str, sheet_name: str) -> str:
 
     return (
         f"{keyword} 관련 {sheet_name} 정보를 StudyRoute에서 확인하세요. "
-        "지역별 과외 학습 흐름과 연결 페이지를 정적 HTML로 제공합니다."
+        "지역별 과외 학습 흐름과 연결 페이지를 안내합니다."
     )
 
 
