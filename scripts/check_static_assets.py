@@ -10,8 +10,8 @@ OUTPUT_DIR = ROOT_DIR / "output"
 REPORTS_DIR = ROOT_DIR / "reports"
 REPORT_PATH = REPORTS_DIR / "static_asset_report.txt"
 
-EXPECTED_STYLESHEET = "/assets/css/main.css"
-EXPECTED_SCRIPT = "/assets/js/search.js"
+EXPECTED_STYLESHEET = "assets/css/main.css"
+EXPECTED_SCRIPT = "assets/js/search.js"
 
 TAG_RE = re.compile(r"<(?P<tag>link|img|script)\b(?P<attrs>[^>]*)>", re.IGNORECASE)
 ATTR_RE = re.compile(
@@ -83,12 +83,15 @@ def add_missing(missing: list[str], source_file: Path, asset_type: str, url: str
 
 def check_expected_paths(errors: list[str], source_file: Path, stylesheets: list[str], scripts: list[str]) -> None:
     source = source_file.relative_to(OUTPUT_DIR).as_posix()
+    prefix = "../" * len(source_file.relative_to(OUTPUT_DIR).parent.parts)
+    expected_stylesheet = prefix + EXPECTED_STYLESHEET
+    expected_script = prefix + EXPECTED_SCRIPT
     for href in stylesheets:
-        if urlparse(href).path != EXPECTED_STYLESHEET:
-            errors.append(f"{source}: stylesheet path must be {EXPECTED_STYLESHEET}, found {href}")
+        if urlparse(href).path != expected_stylesheet:
+            errors.append(f"{source}: stylesheet path must be {expected_stylesheet}, found {href}")
     for src in scripts:
-        if urlparse(src).path != EXPECTED_SCRIPT:
-            errors.append(f"{source}: script path must be {EXPECTED_SCRIPT}, found {src}")
+        if urlparse(src).path != expected_script:
+            errors.append(f"{source}: script path must be {expected_script}, found {src}")
 
 
 def check_files(files: list[Path]) -> tuple[list[str], dict[str, int]]:

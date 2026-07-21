@@ -1,0 +1,112 @@
+{
+  "base_url": "https://studyroute.co.kr",
+  "paths": {
+    "home": {
+      "path": "/",
+      "status": 200,
+      "expected": 200
+    },
+    "daejeon": {
+      "path": "/%EB%8C%80%EC%A0%84%EA%B3%BC%EC%99%B8/",
+      "status": 200,
+      "expected": 200
+    },
+    "daegu": {
+      "path": "/%EB%8C%80%EA%B5%AC%EA%B3%BC%EC%99%B8/",
+      "status": 200,
+      "expected": 200
+    },
+    "math": {
+      "path": "/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
+      "status": 200,
+      "expected": 200
+    },
+    "random_detail": {
+      "path": "/%EA%B0%80%EC%96%91%EB%8F%99%EA%B3%BC%EC%99%B8/",
+      "status": 200,
+      "expected": 200
+    },
+    "robots": {
+      "path": "/robots.txt",
+      "status": 200,
+      "expected": 200
+    },
+    "sitemap": {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "expected": 200
+    },
+    "favicon": {
+      "path": "/assets/images/favicon.ico",
+      "status": 200,
+      "expected": 200
+    },
+    "not_found": {
+      "path": "/this-page-should-404/",
+      "status": 404,
+      "expected": 404
+    }
+  },
+  "meta": {
+    "home": {
+      "title": true,
+      "description": true,
+      "canonical": "https://studyroute.co.kr/",
+      "json_ld": true,
+      "json_ld_types": [
+        "Organization",
+        "WebSite",
+        "WebPage"
+      ],
+      "missing_meta": []
+    },
+    "daejeon": {
+      "title": true,
+      "description": true,
+      "canonical": "https://studyroute.co.kr/%EB%8C%80%EC%A0%84%EA%B3%BC%EC%99%B8/",
+      "json_ld": true,
+      "json_ld_types": [
+        "Organization",
+        "WebSite",
+        "WebPage"
+      ],
+      "missing_meta": []
+    },
+    "daegu": {
+      "title": true,
+      "description": true,
+      "canonical": "https://studyroute.co.kr/%EB%8C%80%EA%B5%AC%EA%B3%BC%EC%99%B8/",
+      "json_ld": true,
+      "json_ld_types": [
+        "Organization",
+        "WebSite",
+        "WebPage"
+      ],
+      "missing_meta": []
+    },
+    "math": {
+      "title": true,
+      "description": true,
+      "canonical": "https://studyroute.co.kr/%EC%88%98%ED%95%99%EA%B3%BC%EC%99%B8/",
+      "json_ld": true,
+      "json_ld_types": [
+        "Organization",
+        "WebSite",
+        "WebPage"
+      ],
+      "missing_meta": []
+    },
+    "random_detail": {
+      "title": true,
+      "description": true,
+      "canonical": "https://studyroute.co.kr/%EA%B0%80%EC%96%91%EB%8F%99%EA%B3%BC%EC%99%B8/",
+      "json_ld": true,
+      "json_ld_types": [
+        "Organization",
+        "WebSite",
+        "WebPage"
+      ],
+      "missing_meta": []
+    }
+  }
+}

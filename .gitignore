@@ -8,3 +8,13 @@ __pycache__/
 .edge-title-check/
 .DS_Store
 Thumbs.db
+
+.vercel
+.env*
+
+.edge-search-check/
+**/.edge-search-check/
+.browser-profile/
+**/.browser-profile/
+playwright-report/
+test-results/

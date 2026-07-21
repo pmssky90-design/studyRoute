@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "python cloudflare_build.py",
+    "deploy-guard": "python deploy_guard.py",
+    "predeploy-check": "python pre_deploy_check.py",
+    "postdeploy-check": "python post_deploy_check.py"
+  }
+}

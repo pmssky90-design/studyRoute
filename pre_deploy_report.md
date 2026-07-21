@@ -1,72 +1,313 @@
 # StudyRoute Pre-Deploy QA Report
 
-## 검사 기준
-
-- 검사 대상: `generator.py` 재실행 후 생성된 `output` 배포 HTML
-- 검사 페이지: 1,976개 `index.html`
-- sitemap URL: 1,976개
-- 랜덤 샘플: 100페이지
-- 검사 결과 원본: `reports/pre_deploy_qa_results.json`
-- HTTP 스모크 체크: `robots.txt`, `sitemap.xml`, favicon 3종, OG/Twitter 이미지 샘플 모두 200
-
-## 수정 내용
-
-- `favicon.ico`, `favicon-32x32.png`, `apple-touch-icon.png`를 기존 StudyRoute favicon SVG와 같은 형태로 생성했습니다.
-- 모든 페이지 head에 `.ico`, 32x32 PNG, SVG, Apple touch icon 링크가 함께 출력되도록 보강했습니다.
-- JSON-LD에 `Organization`, `WebSite @id`, `publisher`, `WebPage isPartOf` 연결을 추가했습니다.
-- 수정 후 `generator.py`를 재실행하여 `output` 전체를 재빌드했습니다.
-- 재빌드 후 전체 QA를 다시 실행했습니다.
-
-## 수정 파일
-
-- `templates/base.html`
-- `generator.py`
-- `assets/images/favicon.ico`
-- `assets/images/favicon-32x32.png`
-- `assets/images/apple-touch-icon.png`
-- `scripts/create_favicons.py`
-- `scripts/pre_deploy_qa.py`
-- `scripts/http_smoke_check.py`
-- `output/**`
-
-## 재검사 결과
-
-- Favicon: OK
-- Open Graph image / Twitter image 존재 여부: OK
-- Open Graph image / Twitter image HTTP 200: OK
-- robots.txt: OK
-- robots.txt HTTP 200: OK
-- sitemap.xml XML 문법 / URL 수 / 중복 / 누락: OK
-- sitemap.xml HTTP 200: OK
-- canonical 현재 URL 일치: OK
-- JSON-LD 문법 / `@id` / `url` / `publisher` / `Organization` / `WebSite` / `WebPage`: OK
-- Open Graph 필수 태그: OK
-- Twitter Card 필수 태그: OK
-- title 누락 / 중복 / 형식: OK
-- meta description 누락 / 너무 짧음 / 중복: OK
-- H1 누락 / 중복 / keyword 불일치: OK
-- 내부 링크 404: OK
-- 이미지 404 / alt / width / height / lazy loading: OK
-- CSS 404: OK
-- JavaScript 404: OK
-- 빈 페이지 / 본문 누락 / 본문 너무 짧음: OK
-- 랜덤 100페이지 샘플 HTML / title / H1 / 본문 / 이미지 / 링크: OK
-
-## Severity Summary
-
+## Summary
+- Pages checked: 1976
+- Sitemap URLs checked: 1976
+- Random sample checked: 100
 - Critical: 0
 - High: 0
 - Medium: 0
-- Low: 1
+- Low: 1976
 
-## 남은 이슈
-
-- Low 1건: `assets/css/main.css`에서 미사용 가능성이 있는 CSS class 후보가 감지되었습니다.
-- 해당 항목은 404, 렌더링 실패, SEO 오류, 배포 차단 오류가 아니라 정리 후보입니다.
-- 디자인 변경 금지 조건 때문에 CSS 삭제나 시각 영향 가능성이 있는 정리는 수행하지 않았습니다.
-
-## 배포 가능 여부
-
-현재 바로 배포 가능한 상태입니다.
-
-Critical, High, Medium 이슈는 0건이며, 남은 Low 1건은 배포를 막지 않는 CSS 정리 후보입니다.
+## Findings
+- **Low** [Image] `가수원동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가수원동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가양동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가장동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `가천동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `각산동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `갈마동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `감삼동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `검단동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고모동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `고성동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관저동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `관평동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴전동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `괴정동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구암동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `구지학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `국우동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `궁동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `남산동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `내동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노변동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동초등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은동학습전략가이드/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구고등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구고등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구고등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구중등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구중등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구중등영어과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구초등과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- **Low** [Image] `노은지구초등수학과외/index.html`: non-home image should declare lazy loading - ../assets/images/body-common.webp
+- ... 1676 additional findings are in `reports/pre_deploy_qa_results.json`.

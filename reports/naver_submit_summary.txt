@@ -1,0 +1,12 @@
+﻿StudyRoute Naver URL submit files
+Generated: 2026-07-04 13:20:34 +09:00
+Total URLs: 1976
+
+Submit sitemap first:
+https://studyroute.co.kr/sitemap.xml
+
+Then use manual URL collection request in this order:
+reports/naver_url_submit_all_important_first.txt
+
+Readable Korean copy:
+reports/naver_url_submit_all_korean_readable.txt
