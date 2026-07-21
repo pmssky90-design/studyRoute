@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import re
 import zipfile
 from collections import defaultdict
@@ -306,10 +307,12 @@ def build_school_pages(schools: list[School], region_slugs: set[str]) -> list[ge
     return pages
 
 
-def build_candidate_site() -> None:
+def build_school_site(output_dir: Path = CANDIDATE_OUTPUT) -> None:
+    """Build the complete region and school site into the requested directory."""
+
     if not SCHOOL_WORKBOOK.exists():
         raise FileNotFoundError(f"학교 엑셀을 찾을 수 없습니다: {SCHOOL_WORKBOOK}")
-    config.OUTPUT_DIR = CANDIDATE_OUTPUT
+    config.OUTPUT_DIR = output_dir
     generator.clean_output()
     renderer = generator.TemplateRenderer(config.TEMPLATE_DIR)
     schools = load_schools()
@@ -325,10 +328,18 @@ def build_candidate_site() -> None:
     generator.write_robots()
     generator.write_sitemap(pages)
     print(
-        f"Candidate build complete: {CANDIDATE_OUTPUT} | "
+        f"School-enabled build complete: {output_dir} | "
         f"schools={len(schools)} school_pages={len(schools) * len(SUBJECTS)} total_pages={len(pages)}"
     )
 
 
 if __name__ == "__main__":
-    build_candidate_site()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=CANDIDATE_OUTPUT,
+        help="Build destination (defaults to candidate_output).",
+    )
+    args = parser.parse_args()
+    build_school_site(args.output.resolve())

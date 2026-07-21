@@ -1,7 +1,7 @@
 {
   "framework": null,
   "installCommand": "",
-  "buildCommand": "python3 generator.py",
+  "buildCommand": "python3 candidate_generator.py --output output",
   "outputDirectory": "output",
   "redirects": [
     {
