@@ -1784,3 +1784,20 @@ h3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+/* Keep the representative search image rendered while placing it off-screen. */
+.search-thumbnail {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.search-thumbnail img {
+  display: block;
+  width: 1200px;
+  height: 630px;
+  object-fit: cover;
+}

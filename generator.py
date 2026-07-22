@@ -918,9 +918,16 @@ def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
         "og_description": html_attr(page.description),
         "og_url": canonical_url,
         "og_image": image_url,
+        "image_src": image_url,
         "twitter_title": html_attr(page.title),
         "twitter_description": html_attr(page.description),
         "twitter_image": image_url,
+        "search_thumbnail": (
+            '<div class="search-thumbnail">'
+            f'<img src="{image_url}" alt="{html_attr(page.keyword or page.title)}" '
+            'width="1200" height="630">'
+            "</div>"
+        ),
         "favicon_path": relative_asset_path(config.FAVICON_PATH, relative_prefix),
         "favicon_ico_path": relative_asset_path("assets/images/favicon.ico", relative_prefix),
         "favicon_png_path": relative_asset_path("assets/images/favicon-32x32.png", relative_prefix),
