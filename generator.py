@@ -16,6 +16,7 @@ import time
 import zipfile
 from dataclasses import dataclass, field
 from datetime import date
+from functools import lru_cache
 from html.parser import HTMLParser
 from pathlib import Path
 from string import Template
@@ -668,12 +669,49 @@ def html_attr(value: str) -> str:
     return html.escape(value, quote=True)
 
 
+@lru_cache(maxsize=1)
+def available_og_thumbnail_paths() -> tuple[str, ...]:
+    """Return deployable thumbnails from the source folder in stable order."""
+
+    source_dir = config.ASSET_DIR / "images" / "og-thumbs" / "썸네일"
+    allowed_suffixes = {".png", ".jpg", ".jpeg", ".webp"}
+    excluded_name_parts = ("backup", "bak", "copy", "복사본", "백업")
+    candidates = sorted(
+        (
+            path
+            for path in source_dir.iterdir()
+            if path.is_file()
+            and not path.name.startswith((".", "~"))
+            and path.suffix.lower() in allowed_suffixes
+            and not any(part in path.name.lower() for part in excluded_name_parts)
+        ),
+        key=lambda path: path.name,
+    )
+    return tuple(
+        "assets/images/og-thumbs/"
+        f"{quote(source_dir.name)}/{quote(path.name)}"
+        for path in candidates
+    )
+
+
 def select_og_image_path(page: Page) -> str:
     """Select a stable search thumbnail without using the body image."""
 
-    if page.output_path == "index.html" or not page.keyword:
+    candidates = available_og_thumbnail_paths()
+    if not candidates:
         return config.DEFAULT_IMAGE
 
+    stable_key = page.keyword or page.url_path
+    digest = hashlib.sha256(stable_key.encode("utf-8")).digest()
+    index = int.from_bytes(digest[:4], "big") % len(candidates)
+    return candidates[index]
+
+
+def select_legacy_search_preview_path(page: Page) -> str:
+    """Preserve non-target image_src/search-preview output during this migration."""
+
+    if page.output_path == "index.html" or not page.keyword:
+        return config.DEFAULT_IMAGE
     digest = hashlib.sha256(page.keyword.encode("utf-8")).digest()
     index = int.from_bytes(digest[:4], "big") % len(config.OG_THUMBNAILS)
     return config.OG_THUMBNAILS[index]
@@ -905,6 +943,7 @@ def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
     canonical_url = absolute_url(page.url_path)
     image_path = root_asset_path(select_og_image_path(page))
     image_url = absolute_url(image_path)
+    preview_image_url = absolute_url(root_asset_path(select_legacy_search_preview_path(page)))
     current_year = str(date.today().year)
     relative_prefix = output_relative_prefix(page.output_path)
 
@@ -918,13 +957,13 @@ def page_context(page: Page, renderer: TemplateRenderer) -> dict[str, str]:
         "og_description": html_attr(page.description),
         "og_url": canonical_url,
         "og_image": image_url,
-        "image_src": image_url,
+        "image_src": preview_image_url,
         "twitter_title": html_attr(page.title),
         "twitter_description": html_attr(page.description),
         "twitter_image": image_url,
         "search_thumbnail": (
             '<div class="search-thumbnail">'
-            f'<img src="{image_url}" alt="{html_attr(page.keyword or page.title)}" '
+            f'<img src="{preview_image_url}" alt="{html_attr(page.keyword or page.title)}" '
             'width="1200" height="630">'
             "</div>"
         ),
