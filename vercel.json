@@ -1,7 +1,7 @@
 {
   "framework": null,
   "installCommand": "",
-  "buildCommand": "python3 candidate_generator.py --output output",
+  "buildCommand": "python3 candidate_generator.py --output output --expansion-workbook data/StudyRoute_페이지확장용_최종.xlsx",
   "outputDirectory": "output",
   "redirects": [
     {

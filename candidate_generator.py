@@ -341,5 +341,21 @@ if __name__ == "__main__":
         default=CANDIDATE_OUTPUT,
         help="Build destination (defaults to candidate_output).",
     )
+    parser.add_argument(
+        "--expansion-workbook",
+        type=Path,
+        help="Build the complete clean site, including Excel expansion pages, from this workbook.",
+    )
     args = parser.parse_args()
-    build_school_site(args.output.resolve())
+    if args.expansion_workbook:
+        import expansion_generator
+
+        workbook = args.expansion_workbook.resolve()
+        output = args.output.resolve()
+        existing_urls = expansion_generator.existing_urls_from_sitemap(config.ROOT_DIR / "output" / "sitemap.xml")
+        sheets = expansion_generator.read_workbook(workbook)
+        items, summary = expansion_generator.build_plan(sheets, existing_urls)
+        expansion_generator.validate_plan(summary)
+        expansion_generator.build_candidate(output, workbook, items, summary)
+    else:
+        build_school_site(args.output.resolve())
