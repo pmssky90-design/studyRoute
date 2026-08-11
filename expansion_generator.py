@@ -10,6 +10,7 @@ import shutil
 import zipfile
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field, replace
+from datetime import date
 from pathlib import Path
 from urllib.parse import quote, unquote, urlsplit
 from xml.etree import ElementTree as ET
@@ -572,6 +573,7 @@ def safe_clean_candidate(output: Path) -> None:
     expected = {
         (ROOT / "candidate_excel_expansion").resolve(),
         (ROOT / "candidate_clean_production_final").resolve(),
+        (ROOT / "candidate_new_sitemap_verify").resolve(),
         (ROOT / "output").resolve(),
     }
     if resolved not in expected:
@@ -581,6 +583,32 @@ def safe_clean_candidate(output: Path) -> None:
     resolved.mkdir(parents=True)
 
 
+def write_new_pages_sitemap(pages: list[generator.Page]) -> None:
+    """Write a standalone sitemap containing only Excel expansion pages."""
+
+    today = date.today().isoformat()
+    url_nodes = []
+    for page in pages:
+        loc = generator.xml_escape(generator.absolute_url(page.url_path))
+        url_nodes.append(
+            "  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <lastmod>{today}</lastmod>\n"
+            "    <changefreq>weekly</changefreq>\n"
+            "    <priority>0.8</priority>\n"
+            "  </url>"
+        )
+    sitemap = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(url_nodes)
+        + "\n</urlset>\n"
+    )
+    (config.OUTPUT_DIR / "sitemap-new-pages.xml").write_text(
+        sitemap, encoding="utf-8", newline="\n"
+    )
+
+
 def build_candidate(output: Path, workbook: Path, items: list[PlanItem], summary: dict[str, object]) -> None:
     safe_clean_candidate(output)
     config.OUTPUT_DIR = output
@@ -588,7 +616,7 @@ def build_candidate(output: Path, workbook: Path, items: list[PlanItem], summary
     existing_pages = add_expansion_links_to_existing(existing_pages, items, schools)
     included = [item for item in items if item.included]
     items_by_slug = {item.slug: item for item in included}
-    pages = existing_pages + [
+    new_pages = [
         new_page(item, items_by_slug)
         for item in sorted(
             included,
@@ -598,6 +626,7 @@ def build_candidate(output: Path, workbook: Path, items: list[PlanItem], summary
             ),
         )
     ]
+    pages = existing_pages + new_pages
     output_paths = [page.output_path for page in pages]
     if len(output_paths) != len(set(output_paths)):
         duplicates = sorted(path for path, count in Counter(output_paths).items() if count > 1)
@@ -609,6 +638,7 @@ def build_candidate(output: Path, workbook: Path, items: list[PlanItem], summary
     generator.write_search_index(pages)
     generator.write_robots()
     generator.write_sitemap(pages)
+    write_new_pages_sitemap(new_pages)
     write_plan(output, workbook, items, summary)
     build_summary = {
         "existing_pages": len(existing_pages),
