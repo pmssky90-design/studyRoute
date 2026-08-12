@@ -1801,3 +1801,52 @@ h3 {
   height: 630px;
   object-fit: cover;
 }
+
+.mobile-contact-actions {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-contact-actions {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobile-contact-button {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 255 255 / 55%);
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: 0 6px 18px rgb(15 23 42 / 24%);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-contact-button:focus-visible {
+    outline: 3px solid #facc15;
+    outline-offset: 3px;
+  }
+
+  .mobile-contact-button svg {
+    width: 25px;
+    height: 25px;
+    fill: currentcolor;
+  }
+
+  .mobile-contact-phone {
+    background: #0f766e;
+  }
+
+  .mobile-contact-sms {
+    background: #2563eb;
+  }
+}
