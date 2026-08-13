@@ -1159,6 +1159,11 @@ def related_sections_for_keyword(
         if local_hubs:
             sections.append(LinkSection("같은 지역의 학습 정보", tuple(local_hubs)))
     else:
+        if suffix in {"수학과외", "영어과외"}:
+            parent_link = link_for_slug(current_region_slug, existing_slugs)
+            if parent_link is not None:
+                sections.append(LinkSection("상위 지역 페이지", (parent_link,)))
+
         sibling_hubs = [
             link
             for hub_suffix in hub_suffixes
