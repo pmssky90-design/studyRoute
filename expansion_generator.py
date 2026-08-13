@@ -81,6 +81,7 @@ class PlanItem:
     url: str
     parent_slug: str
     child_slugs: list[str] = field(default_factory=list)
+    existing_child_links: list[tuple[str, str]] = field(default_factory=list)
     existing_url_collision: bool = False
     included: bool = True
     exclusion_reason: str = ""
@@ -347,6 +348,14 @@ def build_plan(
         if not school_children:
             continue
         slug = compact(school)
+        existing_child_links = []
+        for subject in candidate_generator.SUBJECTS:
+            subject_slug = compact(subject)
+            url = f"{config.BASE_URL}/{quote(slug)}/{quote(subject_slug)}/"
+            if url in existing_urls:
+                existing_child_links.append(
+                    (f"{school} {subject_slug}", f"/{quote(slug)}/{quote(subject_slug)}/")
+                )
         title = f"{school} 학습 정보 안내"
         body = hub_body(title, school_children)
         hub = PlanItem(
@@ -360,6 +369,7 @@ def build_plan(
             slug=slug,
             url=flat_url(slug),
             parent_slug=candidate_generator.SCHOOL_HUB_SLUG,
+            existing_child_links=existing_child_links,
             existing_url_collision=flat_url(slug) in existing_urls,
             included=True,
             generated_hub=True,
@@ -485,11 +495,13 @@ def new_page(item: PlanItem, items_by_slug: dict[str, PlanItem]) -> generator.Pa
     ancestor = items_by_slug.get(item.parent_slug)
     if ancestor and ancestor.parent_slug:
         parent_links.append(generator.LinkItem(ancestor.parent_slug, root_url(ancestor.parent_slug)))
-    child_links = tuple(
+    child_links = [
         generator.LinkItem(items_by_slug[slug].title, root_url(slug))
         for slug in item.child_slugs
         if slug in items_by_slug
-    )
+    ]
+    child_links.extend(generator.LinkItem(title, url) for title, url in item.existing_child_links)
+    child_links = tuple({link.url: link for link in child_links}.values())
     sections: list[generator.LinkSection] = []
     if parent_links:
         sections.append(generator.LinkSection("상위 학습 경로", tuple(parent_links)))
