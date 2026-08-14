@@ -357,5 +357,8 @@ if __name__ == "__main__":
         items, summary = expansion_generator.build_plan(sheets, existing_urls)
         expansion_generator.validate_plan(summary)
         expansion_generator.build_candidate(output, workbook, items, summary)
+        import school_finder_generator
+
+        school_finder_generator.augment_output(output)
     else:
         build_school_site(args.output.resolve())
