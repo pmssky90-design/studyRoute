@@ -163,10 +163,20 @@ def inject_home(items: list[Location]) -> None:
     marker = '      <section class="home-section home-region-section"'
     if marker not in html:
         raise ValueError("기존 지역 찾기 섹션 위치를 찾을 수 없습니다.")
+    descriptions = {
+        "대전": "39개 고등학교를 구·동별로 찾아보세요.",
+        "대구": "76개 고등학교를 구·군·동별로 찾아보세요.",
+    }
     articles = "\n".join(
-        '            <article class="region-card">'
-        f'<h3>{city} 고등학교</h3><p>{sum(x.school.city == city for x in items)}개 학교를 구·군과 동 순서로 찾습니다.</p>'
-        f'<a class="region-more" href="{url(city)}">{city} 고등학교 찾기</a></article>'
+        '            <article class="school-finder-card">'
+        '<span class="school-finder-card-icon" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24"><path d="M3 10.5 12 5l9 5.5-9 5.5-9-5.5Z"/>'
+        '<path d="M6.5 13v4.5c2.8 2 8.2 2 11 0V13M21 11v6"/></svg></span>'
+        '<div class="school-finder-card-content">'
+        f'<h3 class="school-finder-card-title">{city} 고등학교</h3>'
+        f'<p class="school-finder-card-description">{descriptions[city]}</p>'
+        f'<a class="school-finder-card-link" href="{url(city)}">{city} 고등학교 찾기'
+        '<span aria-hidden="true">→</span></a></div></article>'
         for city in ("대전", "대구")
     )
     section = (
@@ -174,7 +184,7 @@ def inject_home(items: list[Location]) -> None:
         '        <div class="container"><div class="center-heading region-heading">\n'
         '          <span class="heading-icon" aria-hidden="true">🏫</span>\n'
         '          <h2 id="school-finder-title">학교 찾기</h2></div>\n'
-        f'          <div class="region-card-grid">\n{articles}\n          </div>\n'
+        f'          <div class="school-finder-grid">\n{articles}\n          </div>\n'
         '        </div>\n      </section>\n\n'
     )
     target.write_text(html.replace(marker, section + marker, 1), encoding="utf-8", newline="\n")
@@ -240,6 +250,7 @@ def main() -> None:
     ACTIVE_SOURCE, ACTIVE_OUTPUT = SOURCE, OUTPUT
     items, failures = locations()
     summary = augment_output(OUTPUT, write_sitemap=False)
+    generator.copy_assets()
     pages = build_pages(items)
     report = {
         "source_pages": len(re.findall(r"<loc>", (SOURCE / "sitemap.xml").read_text(encoding="utf-8"))),
